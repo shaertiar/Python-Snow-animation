@@ -1,16 +1,12 @@
-# Более лучший как по мне код 2 экземпляра
+# Такое чувство, словно код написал кто-то другой, хотя я точно помню, как писал его самостоятельно. Кажеться, я исправил некоторые косяки, которые я оставил.
+
+
 import pygame as pg
 import random
 
 pg.init()
 
 # Settings
-window_width = 2560
-window_height = 1440
-
-# snowflakes_num = 50
-snowflakes_num = window_width * window_height // 2000
-
 bg_color = (0, 0, 0)
 
 speed = 200
@@ -21,8 +17,9 @@ mouse_cursor_size = 10
 mouse_cursor_color = (255, 0, 0)
 
 # Create window
-window = pg.display.set_mode((window_width, window_height))
+window = pg.display.set_mode()
 pg.display.set_caption('Snow animation')
+WW, WH = window.get_size()
 
 if change_mouse_cursor:
     pg.mouse.set_visible(False)
@@ -30,12 +27,14 @@ if change_mouse_cursor:
 # Variables
 Clock = pg.time.Clock()
 
+snowflakes_num = WW * WH // 2000
+
 snowflakes_list = []
 
 # Create and add snowflakes in list
 for i in range(snowflakes_num):
-    x = random.randrange(0, window_width)
-    y = random.randrange(0, window_height)
+    x = random.randrange(0, WW)
+    y = random.randrange(0, WH)
 
     snowflakes_list.append([x, y])
 
@@ -52,8 +51,8 @@ while True:
 
         snowflakes_list[i][1] += 1
 
-        if snowflakes_list[i][1] > window_height:
-            snowflakes_list[i][0] = random.randrange(0, window_width)
+        if snowflakes_list[i][1] > WH:
+            snowflakes_list[i][0] = random.randrange(0, WW)
             snowflakes_list[i][1] = random.randrange(-50, 10)
 
     if change_mouse_cursor:
@@ -67,5 +66,5 @@ while True:
 
 
     pg.display.update()
-    # del Ненавижу когда скорость регулироют частотой тика
+    # del Ненавижу когда скорость регулироют частотой кадра
     Clock.tick(speed)
